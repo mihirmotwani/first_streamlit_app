@@ -40,6 +40,8 @@ try:
 
 except URLerror as e:
   streamlit.error()
+  
+  streamlit.stop()
 
 
 
