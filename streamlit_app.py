@@ -48,36 +48,5 @@ except URLerror as e:
 
 
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
-my_data_row = my_cur.fetchone()
-streamlit.text("Hello from Snowflake:")
-streamlit.text(my_data_row)
-
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT * FROM FRUIT_LOAD_LIST")
-my_data_row = my_cur.fetchall()
-streamlit.header("THE FRUIT LOAD CONTAINS:")
-streamlit.dataframe(my_data_row)	
-
-
-fruit_choice = streamlit.text_input('What fruit would you like to add?','Jackfruit')
-streamlit.text('thanks for adding jackfruit')
-
-my_cur.execute("insert into PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST values ('from streamlit')")
-
-def insert_row_snowflake(new_fruit):
-  with my_cnx.cursor() as my_cur:
-    my_cur.execute("insert into fruit_load_list values ('"+new_fruit+"')")
-    return "Thanks for adding" +new_fruit
-  
-if streamlit.button('get_fruit_list'):
-  my_cnx=snowflake.connector.connect(**streamlit.secrets["snowflake"])
-  my_data_rows=get_fruit_load_list()
-  my_cnx.close()
-  streamlit.dataframe(my_data_rows)
-  
 
 
